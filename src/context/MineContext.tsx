@@ -63,8 +63,8 @@ export function MineProvider({ children }: { children: React.ReactNode }) {
   const bombed = mineTiles.some(mineTile => mineTile.status === 'REVEALED' && mineTile.isMine)
   const ended = won || bombed
 
-  if (ended && mineSet.size > 0) {
-    [...mineSet].forEach((bombIndex, i) => {
+  const triggerLeftBombs = (leftBombs: number[]) => {
+    leftBombs.forEach((bombIndex, i) => {
       setTimeout(() => {
         setMineTiles(mineTiles => {
           const newMineTiles = [...mineTiles]
@@ -76,7 +76,6 @@ export function MineProvider({ children }: { children: React.ReactNode }) {
         })
       }, 50 * (i + 1))
     })
-    mineSet.clear()
   }
 
   const init = () => {
@@ -99,7 +98,9 @@ export function MineProvider({ children }: { children: React.ReactNode }) {
         status: 'REVEALED'
       }
       if (mineTiles[i].isMine) {
-        mineSet.delete(i)
+        const leftBombs = new Set<number>(mineSet)
+        leftBombs.delete(i)
+        triggerLeftBombs([...leftBombs])
       }
     } else {
       revealEmptyTile(newMineTiles, i)
