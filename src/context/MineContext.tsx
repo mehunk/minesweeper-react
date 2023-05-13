@@ -63,6 +63,22 @@ export function MineProvider({ children }: { children: React.ReactNode }) {
   const bombed = mineTiles.some(mineTile => mineTile.status === 'REVEALED' && mineTile.isMine)
   const ended = won || bombed
 
+  if (ended && mineSet.size > 0) {
+    [...mineSet].forEach((bombIndex, i) => {
+      setTimeout(() => {
+        setMineTiles(mineTiles => {
+          const newMineTiles = [...mineTiles]
+          newMineTiles[bombIndex] = {
+            ...newMineTiles[bombIndex],
+            status: 'REVEALED'
+          }
+          return newMineTiles
+        })
+      }, 50 * (i + 1))
+    })
+    mineSet.clear()
+  }
+
   const init = () => {
     setMineSet(getMineSet(rowCount, colCount, mineCount))
     setMineTiles(getMineTiles(rowCount, colCount, mineSet))
@@ -72,12 +88,17 @@ export function MineProvider({ children }: { children: React.ReactNode }) {
 
   const handleClick = (i: number) => {
     if (ended || mineTiles[i].status !== 'HIDDEN') return
-    setStarted(true)
+    if (!started) {
+      setStarted(true)
+    }
     const newMineTiles = [...mineTiles]
     if (mineTiles[i].isMine || mineTiles[i].mineCount !== 0) {
       newMineTiles[i] = {
         ...newMineTiles[i],
         status: 'REVEALED'
+      }
+      if (mineTiles[i].isMine) {
+        mineSet.delete(i)
       }
     } else {
       revealEmptyTile(newMineTiles, i)
