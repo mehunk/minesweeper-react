@@ -80,8 +80,9 @@ export function MineProvider({ children }: { children: React.ReactNode }) {
   }
 
   const init = () => {
-    setMineSet(getMineSet(rowCount, colCount, mineCount))
-    setMineTiles(getMineTiles(rowCount, colCount, mineSet))
+    const set = getMineSet(rowCount, colCount, mineCount)
+    setMineSet(set)
+    setMineTiles(getMineTiles(rowCount, colCount, set))
     setFlagCount(mineCount)
     setStarted(false)
   }
