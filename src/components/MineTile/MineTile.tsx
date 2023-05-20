@@ -1,3 +1,5 @@
+import { Transition } from '@headlessui/react'
+
 import tileNormalImage from '@/assets/images/tile_normal.png'
 import tileFlagImage from '@/assets/images/tile_flag.png'
 import tileQuestionImage from '@/assets/images/tile_question.png'
@@ -11,7 +13,7 @@ import tileCount5Image from '@/assets/images/tile_5.png'
 import tileCount6Image from '@/assets/images/tile_6.png'
 import tileCount7Image from '@/assets/images/tile_7.png'
 import tileCount8Image from '@/assets/images/tile_8.png'
-import { useMineHandleContext } from '@/context/MineContext.tsx'
+import MineImage from '@/components/MineImage/MineImage.tsx'
 
 interface Props extends MineTile {
   index: number
@@ -40,30 +42,35 @@ function MineTile ({
   isMine,
   mineCount,
 }: Props) {
-  const { handleClick, handleRightClick, handleMouseDown, handleMouseUp } = useMineHandleContext()
-
   const image = status === 'REVEALED'
     ? isMine
       ? bombImage
       : MINE_COUNT_TO_IMAGE[mineCount]
     : STATUS_TO_IMAGE[status]
 
+  if (status === 'REVEALED' && isMine) {
+    return (
+      <Transition
+        appear={true}
+        show={true}
+        enter="transition-transform duration-500"
+        enterFrom="scale-150"
+        enterTo="scale-100"
+      >
+        <MineImage
+          image={image}
+          index={index}
+          status={status}
+        />
+      </Transition>
+    )
+  }
+
   return (
-    <img
-      src={image}
-      alt="tile"
-      className="w-8 h-8"
-      onClick={() => handleClick(index)}
-      onContextMenu={e => {
-        e.preventDefault()
-        handleRightClick(index)
-      }}
-      onMouseDown={e => {
-        e.button === 0 && status === 'HIDDEN' && handleMouseDown()
-      }}
-      onMouseUp={e => {
-        e.button === 0 && status === 'HIDDEN' && handleMouseUp()
-      }}
+    <MineImage
+      image={image}
+      index={index}
+      status={status}
     />
   )
 }
