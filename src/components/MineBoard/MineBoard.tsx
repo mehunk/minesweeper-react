@@ -5,7 +5,7 @@ function MineBoard () {
   const { mineTiles } = useMineContext()
 
   return (
-    <div className="grid grid-cols-9">
+    <div className="border-[3px] border-inside grid grid-cols-9">
       {mineTiles.map((mineTile, i) => (
         <MineTile
           key={i}

@@ -5,8 +5,8 @@ import MinePanel from '@/components/MinePanel/MinePanel.tsx'
 function App() {
   return (
     <MineProvider>
-      <div className="w-screen h-screen flex justify-center items-center">
-        <div className="bg-gray-400 p-[5px]">
+      <div className="w-screen h-screen bg-teal-600 flex justify-center items-center">
+        <div className="border-outside bg-[#C0C0C0] p-[5px]">
           <MinePanel />
           <MineBoard />
         </div>
