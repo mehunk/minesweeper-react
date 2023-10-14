@@ -10,4 +10,8 @@
   .border-outside {
     @apply border-[3px] border-solid border-t-[#fff] border-r-[#7b7b7b] border-b-[#7b7b7b] border-l-[#fff]
   }
+
+  .dynamic-image {
+    @apply bg-cover bg-[image:var(--image-url)]
+  }
 }

@@ -25,10 +25,11 @@ function Smiley () {
   }
 
   return (
-    <img
-      src={smiley}
-      alt="smiley"
-      className="w-12 h-12"
+    <div
+      className={`w-12 h-12 dynamic-image`}
+      style={{
+        '--image-url': `url('${smiley}')`
+      }}
       onClick={init}
       onMouseDown={e =>{
         e.button === 0 && setPressed(true)

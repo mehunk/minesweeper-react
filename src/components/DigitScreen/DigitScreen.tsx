@@ -38,11 +38,12 @@ function DigitScreen ({digits, value}: Props) {
   return (
     <div className="h-[46px]">
       {numArr.map((num, i) => (
-        <img
+        <div
           key={i}
-          src={DIGIT_TO_IMAGE[num]}
-          className="w-[23px] h-full inline-block"
-          alt={`digit_${num}`}
+          className="w-[23px] h-full inline-block dynamic-image"
+          style={{
+            '--image-url': `url('${DIGIT_TO_IMAGE[num]}')`
+          }}
         />
       ))}
     </div>

@@ -15,10 +15,11 @@ function MineImage ({
   const { handleClick, handleRightClick, handleMouseDown, handleMouseUp } = useMineHandleContext()
 
   return (
-    <img
-      src={image}
-      alt="tile"
-      className="w-8 h-8"
+    <div
+      className="w-8 h-8 dynamic-image"
+      style={{
+        '--image-url': `url('${image}')`
+      }}
       onClick={() => handleClick(index)}
       onContextMenu={e => {
         e.preventDefault()
