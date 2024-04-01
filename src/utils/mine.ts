@@ -21,8 +21,9 @@ export function getMineTiles (rowCount: number, colCount: number, mineSet: Set<n
     const mineTile = mineTiles[i];
     if (mineTile.isMine) {
       mineTile.mineCount = -1;
+    } else {
+      mineTile.mineCount = calculateMineCount(mineTiles, i);
     }
-    mineTile.mineCount = calculateMineCount(mineTiles, i);
   }
 
   return mineTiles
@@ -39,7 +40,10 @@ function calculateMineCount (mineTiles: MineTile[], index: number): number {
       const y2 = y + dy;
       if (x2 < 0 || x2 >= 9) continue;
       if (y2 < 0 || y2 >= 9) continue;
-      const mineTile = mineTiles[y2 * 9 + x2];
+      // If calculated index is not valid
+      const index = y2 * 9 + x2
+      if (index >= mineTiles.length) continue;
+      const mineTile = mineTiles[index];
       if (mineTile.isMine) mineCount++;
     }
   }
@@ -68,7 +72,10 @@ export function revealEmptyTile (mineTiles: MineTile[], index: number): void {
       const y2 = y + dy;
       if (x2 < 0 || x2 >= 9) continue;
       if (y2 < 0 || y2 >= 9) continue;
-      revealEmptyTile(mineTiles, y2 * 9 + x2);
+      // If calculated index is not valid
+      const index = y2 * 9 + x2
+      if (index >= mineTiles.length) continue;
+      revealEmptyTile(mineTiles, index);
     }
   }
 }
